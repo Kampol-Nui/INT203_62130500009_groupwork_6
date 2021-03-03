@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Vue Js - HelloWorld App</title>
+
+    <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+    <!-- Using via Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- https://tailwindcss.com/docs/installation -->
+    <!-- Using Tailwind via CDN -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="profile.css">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css' rel="stylesheet">
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet">
+    <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+
+</head>
+<!---->
+
+<body>
+    <div id="app">
+        <div class="pt-10 pb-10 container d-flex justify-content-center align-items-center">
+            <div class="card text-center">
+                <div class="py-4 p-2">
+                    <div>
+
+                        <h2 class="text-2xl">Create Your Profile</h2>
+
+                        <div class="flex justify-center">
+                            <img :src="mypic" class="rounded mt-3" width="100">
+                        </div>
+                    </div>
+                    <!-- <div class="mt-3 d-flex flex-row justify-content-center">
+                    <h5>{{myname}}</h5> <span class="dots"><i class="fa fa-check"></i></span>
+                </div> <span>{{member}}</span>
+                <div class="mt-3"> <button class="btn btn-danger">{{follow}}</button> <button class="btn btn-outline-secondary"><i class="fa fa-users"></i> {{num[0]}}</button> </div> -->
+                </div>
+                <div>
+                    <form @submit.prevent="checkForm">
+                        <p v-if="errors" class="text-red-500">
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                                <li v-for="error in errors" class="text-red-500">{{ error }}</li>
+                            </ul>
+                        </p>
+                        <div class="rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                            <div class="-mx-3 md:flex mb-6">
+                                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label
+                                        class="block uppercase flex w-max justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="firstname" >
+                                        First Name
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                        id="firstname" type="text" placeholder="Jane" v-model="firstname">
+                                    <p class="text-red text-xs italic">Please fill out this field.</p>
+                                </div>
+                                <div class="md:w-1/2 px-3">
+                                    <label
+                                        class="block uppercase flex w-max justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-last-name">
+                                        Last Name
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        id="grid-last-name" type="text" placeholder="Doe">
+                                </div>
+                            </div>
+                            <!-- <div class="-mx-3 md:flex mb-6">
+                                <div class="md:w-full px-3">
+                                    <label
+                                        class="block uppercase flex w-max  justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-password">
+                                        Password
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
+                                        id="grid-password" type="password" placeholder="******************">
+                                        <label class="block uppercase flex w-max  justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-city">
+                                        City
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        id="grid-city" type="text" placeholder="Albuquerque">
+                                    <p class="text-grey-dark text-xs italic">Make it as long and as crazy as you'd like
+                                    </p>
+                                </div>
+                            </div> -->
+                            <div class="-mx-3 md:flex mb-6">
+                                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label
+                                        class="block uppercase flex w-max justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="firstname">
+                                        First Name
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                        id="firstname" type="text" placeholder="Jane">
+                                    <p class="text-red text-xs italic">Please fill out this field.</p>
+                                </div>
+                                <div class="md:w-1/2 px-3">
+                                    <label
+                                        class="block uppercase flex w-max justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-last-name">
+                                        Last Name
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        id="grid-last-name" type="text" placeholder="Doe">
+                                </div>
+                            </div>
+                            <div class="-mx-3 md:flex mb-2">
+                                <div class="md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label class="block uppercase flex w-max  justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-city">
+                                        City
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        id="grid-city" type="text" placeholder="Albuquerque">
+                                </div>
+                                <div class="md:w-1/2 px-3">
+                                    <label class="block uppercase flex w-max  justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-state">
+                                        State
+                                    </label>
+                                    <div class="relative">
+                                        <select
+                                            class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                                            id="grid-state">
+                                            <option>New Mexico</option>
+                                            <option>Missouri</option>
+                                            <option>Texas</option>
+                                        </select>
+                                        <div
+                                            class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker left-44 top-5">
+                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                                </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="md:w-1/2 px-3">
+                                    <label class="block uppercase flex w-max  justify-start ml-4 tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        for="grid-zip">
+                                        Zip
+                                    </label>
+                                    <input
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                        id="grid-zip" type="text" placeholder="90210">
+                                </div>
+                            </div>
+                            <div>
+                                <input type="submit" value="Create"
+                                    class="px-8 mt-10 py-2  text-white bg-green-500 rounded-lg hover:bg-green-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- my main.js -->
+    <script src="./profile.js"></script>
+</body>
+
+</html>
