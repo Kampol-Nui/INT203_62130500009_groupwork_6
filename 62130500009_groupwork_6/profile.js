@@ -2,62 +2,142 @@
         data() {
             return {
                 // myname: 'Kampol Thaipricha',
-                mypic: 'images/2.jpg',
-                // member: 'Member since Jan 2021',
-                // rawHtml1: '<span class="font-weight-bold">Post</span>',
-                // rawHtml2: '<span class="font-weight-bold">Comments</span>',
-                // rawHtml3: '<span class="font-weight-bold">Favourites</span>',
-                // follow:'follow',
-                // num:[281,2,37,12],
-                firstname: null,
-                password: null,
-                email:null,
+                submitdata: {
+                    mypic: 'images/2.jpg',
+                    // member: 'Member since Jan 2021',
+                    // rawHtml1: '<span class="font-weight-bold">Post</span>',
+                    // rawHtml2: '<span class="font-weight-bold">Comments</span>',
+                    // rawHtml3: '<span class="font-weight-bold">Favourites</span>',
+                    // follow:'follow',
+                    // num:[281,2,37,12],
+                    firstname: null,
+                    lastname: null,
+                    password: null,
+                    email: null,
+                    tel: null,
+                    chosengender: null,
+                    age: null
+                },
+                gender_lists: [{
+                        gender_id: 1,
+                        gender_name: 'Male'
+                    },
+                    {
+                        gender_id: 2,
+                        gender_name: 'Female'
+                    },
+                    {
+                        gender_id: 3,
+                        gender_name: 'No Gender'
+                    }
+                ],
                 errors: null
-
             }
+
         },
         methods: {
-            checkForm(){
-                this.errors = validate({firstname: this.firstname,
-                                        password:this.password,
-                                        email: this.email,
-                                        // age: this.age,
-                                        // gender: this.gender,
-                                        // email: this.email,
-                                        // phone: this.phone,
-                                        // chosensubject: this.chosensubject
-                                    },
-                                        constraints)
-                if(!this.errors){
-                    
-                    alert("Registered successfully.")
+            checkForm() {
+
+                this.errors = validate(this.submitdata,
+                    constraints)
+
+                if (!this.errors) {
+
+                    alert("Registeration successfully.")
                 }
+
             }
         }
 
+    })
+    app.component('display-error',{
+        props:{
+            errors: {
+                type: Object,
+                required: true,
+            },
+            field: {
+                type: String,
+                required: true,
+            }
+        },
+        template: 
+        /*html*/
+        `
+        <div v-if="errors && errorList">
+            <span v-for="error in errorList" class="text-red-500 italic">{{error}}<br></span>
+        </div>
+        `,
+        computed: {
+            errorList(){
+                return this.errors[this.field]
+            }
+        }
     })
 
     const constraints = {
         firstname: {
             presence: true,
-            exclusion: {
-                within: {username: "Japan", "ch": "China"},
-                message: "^We don't support %{value} right now, sorry"
-              }
+            // exclusion: {
+            //     within: {
+            //         username: "Japan",
+            //         "ch": "China"
+            //     },
+            //     message: "^We don't support %{value} right now, sorry"
+            // }
+        },
+        lastname: {
+            presence: true,
+            // exclusion: {
+            //     within: {
+            //         username: "Japan",
+            //         "ch": "China"
+            //     },
+            //     message: "^We don't support %{value} right now, sorry"
+            // }
+        },
+        email: {
+            presence: true,
+            email: true
         },
         password: {
             presence: true,
             length: {
-                minimum : 10,
-                message: "must be at least 10 digits"
-            }, 
+                minimum: 6,
+                message: "must be at least 6 digits"
+            },
             format: {
                 pattern: "[a-z0-9]+",
                 flags: "i",
                 message: "can only contain a-z and 0-9"
-              }
-            
+            }
+
         },
+        tel: {
+            presence: true,
+            length: {
+                maximum: 10,
+                minimum: 10,
+
+                message: "must be at least 10 digits and not more than 10 digits"
+            },
+            format: {
+                pattern: "[0-9]+",
+                flags: "i",
+                message: "can only contain  0-9"
+            }
+        },
+        chosengender: {
+            presence: true
+        },
+        age: {
+            presence: true,
+            numericality: {
+                lessThan: 120,
+                greaterThan: 0
+            }
+
+        }
         // age: {
         //     presence: true,
         //     numericality: {
@@ -67,10 +147,7 @@
         // gender: {
         //     presence: true,
         // },
-        email: {
-            presence: true,
-            email: true
-        },
+
         // phone: {
         //     presence: true,
         //     length: {
@@ -83,5 +160,5 @@
         // }
     }
 
-    
+
     app.mount('#app')
